@@ -1,4 +1,5 @@
 import yargs, { Choices } from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import { args, AvailableMuxer, groups } from './module.args';
 import { LanguageItem } from './module.langsData';
 import { DownloadInfo } from '../@types/messageHandler';
@@ -89,7 +90,7 @@ const appArgv = (cfg: {
 }, isGUI = false) => {
   if (argvC)
     return argvC;
-  yargs(process.argv.slice(2));
+  yargs(hideBin(process.argv));
   const argv = getArgv(cfg, isGUI)
     .parseSync();
   argvC = argv;
@@ -118,11 +119,11 @@ const getArgv = (cfg: { [key:string]: unknown }, isGUI: boolean) => {
     } else
       return _default;
   };  
-  const argv = yargs.parserConfiguration({
+  const argv = yargs(hideBin(process.argv)).parserConfiguration({
     'duplicate-arguments-array': false,
     'camel-case-expansion': false,
   })
-    .wrap(yargs.terminalWidth())
+    .wrap(yargs().terminalWidth())
     .usage('Usage: $0 [options]')
     .help(true);
     //.strictOptions()
