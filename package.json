@@ -1,105 +1,107 @@
 {
-  "name": "multi-downloader-nx",
-  "short_name": "aniDL",
-  "version": "5.3.4",
-  "description": "Downloader for Crunchyroll, Hidive, AnimeOnegai, and AnimationDigitalNetwork with CLI and GUI",
-  "keywords": [
-    "download",
-    "downloader",
-    "hidive",
-    "crunchy",
-    "crunchyroll",
-    "util",
-    "utility",
-    "cli",
-    "gui"
-  ],
-  "engines": {
-    "node": ">=14"
-  },
-  "author": "AnimeDL <AnimeDL@users.noreply.github.com>",
-  "contributors": [
-    {
-      "name": "AnimeDL <AnimeDL@users.noreply.github.com>"
+    "name": "multi-downloader-nx",
+    "short_name": "aniDL",
+    "version": "5.3.4",
+    "description": "Downloader for Crunchyroll, Hidive, AnimeOnegai, and AnimationDigitalNetwork with CLI and GUI",
+    "keywords": [
+        "download",
+        "downloader",
+        "hidive",
+        "crunchy",
+        "crunchyroll",
+        "util",
+        "utility",
+        "cli",
+        "gui"
+    ],
+    "engines": {
+        "node": ">=14"
     },
-    {
-      "name": "AniDL <AniDL@users.noreply.github.com>"
+    "author": "AnimeDL <AnimeDL@users.noreply.github.com>",
+    "contributors": [
+        {
+            "name": "AnimeDL <AnimeDL@users.noreply.github.com>"
+        },
+        {
+            "name": "AniDL <AniDL@users.noreply.github.com>"
+        },
+        {
+            "name": "AnidlSupport <AnidlSupport@users.noreply.github.com>"
+        }
+    ],
+    "homepage": "https://github.com/anidl/multi-downloader-nx",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/anidl/multi-downloader-nx.git"
     },
-    {
-      "name": "AnidlSupport <AnidlSupport@users.noreply.github.com>"
+    "bugs": {
+        "url": "https://github.com/anidl/multi-downloader-nx/issues"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "binary-parser": "^2.2.1",
+        "binary-parser-encoder": "^1.5.3",
+        "bn.js": "^5.2.1",
+        "cors": "^2.8.5",
+        "elliptic": "^6.6.1",
+        "express": "^4.21.2",
+        "fast-xml-parser": "^4.5.3",
+        "ffprobe": "^1.1.2",
+        "fs-extra": "^11.3.0",
+        "got": "^11.8.6",
+        "iso-639": "^0.2.2",
+        "leven": "^3.1.0",
+        "log4js": "^6.9.1",
+        "long": "^5.3.1",
+        "lookpath": "^1.2.3",
+        "m3u8-parsed": "^1.3.0",
+        "mpd-parser": "^1.3.1",
+        "open": "^8.4.2",
+        "protobufjs": "^7.4.0",
+        "sei-helper": "^3.3.0",
+        "ws": "^8.18.1",
+        "yaml": "^2.7.0",
+        "yargs": "^17.7.2"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.23.0",
+        "@types/bn.js": "^5.1.6",
+        "@types/bun": "^1.2.6",
+        "@types/cors": "^2.8.17",
+        "@types/elliptic": "^6.4.18",
+        "@types/express": "^4.17.21",
+        "@types/ffprobe": "^1.1.8",
+        "@types/fs-extra": "^11.0.4",
+        "@types/node": "^20.17.27",
+        "@types/ws": "^8.18.0",
+        "@types/yargs": "^17.0.33",
+        "@typescript-eslint/eslint-plugin": "^7.18.0",
+        "@typescript-eslint/parser": "^7.18.0",
+        "eslint": "^8.57.1",
+        "eslint-config-react-app": "^7.0.1",
+        "eslint-plugin-react": "7.34.3",
+        "prettier": "^3.5.3",
+        "protoc": "^1.1.3",
+        "removeNPMAbsolutePaths": "^3.0.1",
+        "typescript": "5.5.2",
+        "typescript-eslint": "7.13.1"
+    },
+    "scripts": {
+        "start": "bun gui.ts",
+        "gui": "cd ./gui/react/ && bun run start",
+        "docs": "bun modules/build-docs.ts",
+        "proto:compile": "protoc --plugin=protoc-gen-ts_proto=.\\node_modules\\.bin\\protoc-gen-ts_proto.cmd --ts_proto_opt=\"esModuleInterop=true\" --ts_proto_opt=\"forceLong=long\" --ts_proto_opt=\"env=node\" --ts_proto_out=. modules/*.proto",
+        "build-windows-cli": "bun modules/build windows-x64",
+        "build-linux-cli": "bun modules/build linux-x64",
+        "build-arm-cli": "bun modules/build linux-arm64",
+        "build-macos-cli": "bun modules/build darwin-x64",
+        "build-windows-gui": "bun modules/build windows-x64 true",
+        "build-linux-gui": "bun modules/build linux-x64 true",
+        "build-arm-gui": "bun modules/build linux-arm64 true",
+        "build-macos-gui": "bun modules/build darwin-x64 true",
+        "eslint": "npx eslint . --quiet",
+        "eslint-fix": "npx eslint . --fix",
+        "test": "bun modules/build windows-x64 && bun modules/build linux-x64 && bun modules/build darwin-x64",
+        "pretty": "bun run prettier --write \"**/*.{ts,json}\""
     }
-  ],
-  "homepage": "https://github.com/anidl/multi-downloader-nx",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/anidl/multi-downloader-nx.git"
-  },
-  "bugs": {
-    "url": "https://github.com/anidl/multi-downloader-nx/issues"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "binary-parser": "^2.2.1",
-    "binary-parser-encoder": "^1.5.3",
-    "bn.js": "^5.2.1",
-    "cors": "^2.8.5",
-    "elliptic": "^6.6.1",
-    "express": "^4.21.2",
-    "fast-xml-parser": "^4.5.3",
-    "ffprobe": "^1.1.2",
-    "fs-extra": "^11.3.0",
-    "got": "^11.8.6",
-    "iso-639": "^0.2.2",
-    "leven": "^3.1.0",
-    "log4js": "^6.9.1",
-    "long": "^5.3.1",
-    "lookpath": "^1.2.3",
-    "m3u8-parsed": "^1.3.0",
-    "mpd-parser": "^1.3.1",
-    "open": "^8.4.2",
-    "protobufjs": "^7.4.0",
-    "sei-helper": "^3.3.0",
-    "ws": "^8.18.1",
-    "yaml": "^2.7.0",
-    "yargs": "^17.7.2"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.23.0",
-    "@types/bn.js": "^5.1.6",
-    "@types/bun": "^1.2.6",
-    "@types/cors": "^2.8.17",
-    "@types/elliptic": "^6.4.18",
-    "@types/express": "^4.17.21",
-    "@types/ffprobe": "^1.1.8",
-    "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.17.27",
-    "@types/ws": "^8.18.0",
-    "@types/yargs": "^17.0.33",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.1",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-react": "7.34.3",
-    "protoc": "^1.1.3",
-    "removeNPMAbsolutePaths": "^3.0.1",
-    "typescript": "5.5.2",
-    "typescript-eslint": "7.13.1"
-  },
-  "scripts": {
-    "start": "bun gui.ts",
-    "gui": "cd ./gui/react/ && bun run start",
-    "docs": "bun modules/build-docs.ts",
-    "proto:compile": "protoc --plugin=protoc-gen-ts_proto=.\\node_modules\\.bin\\protoc-gen-ts_proto.cmd --ts_proto_opt=\"esModuleInterop=true\" --ts_proto_opt=\"forceLong=long\" --ts_proto_opt=\"env=node\" --ts_proto_out=. modules/*.proto",
-    "build-windows-cli": "bun modules/build windows-x64",
-    "build-linux-cli": "bun modules/build linux-x64",
-    "build-arm-cli": "bun modules/build linux-arm64",
-    "build-macos-cli": "bun modules/build darwin-x64",
-    "build-windows-gui": "bun modules/build windows-x64 true",
-    "build-linux-gui": "bun modules/build linux-x64 true",
-    "build-arm-gui": "bun modules/build linux-arm64 true",
-    "build-macos-gui": "bun modules/build darwin-x64 true",
-    "eslint": "npx eslint . --quiet",
-    "eslint-fix": "npx eslint . --fix",
-    "test": "bun modules/build windows-x64 && bun modules/build linux-x64 && bun modules/build darwin-x64"
-  }
 }
