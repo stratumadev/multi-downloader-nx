@@ -12,6 +12,7 @@ export default tseslint.config(
       'no-console': 2,
       'react/prop-types': 0,
       'react-hooks/exhaustive-deps': 0,
+      '@typescript-eslint/no-var-requires': 0,
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-declaration-merging': 'warn',
       '@typescript-eslint/no-unused-vars' : 'warn',

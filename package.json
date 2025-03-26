@@ -15,8 +15,7 @@
     "gui"
   ],
   "engines": {
-    "node": ">=14",
-    "pnpm": ">=7"
+    "node": ">=14"
   },
   "author": "AnimeDL <AnimeDL@users.noreply.github.com>",
   "contributors": [
@@ -40,13 +39,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@yao-pkg/pkg": "^5.16.1",
     "binary-parser": "^2.2.1",
     "binary-parser-encoder": "^1.5.3",
     "bn.js": "^5.2.1",
     "cors": "^2.8.5",
     "elliptic": "^6.6.1",
-    "esbuild": "^0.21.5",
     "express": "^4.21.2",
     "fast-xml-parser": "^4.5.3",
     "ffprobe": "^1.1.2",
@@ -69,6 +66,7 @@
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@types/bn.js": "^5.1.6",
+    "@types/bun": "^1.2.6",
     "@types/cors": "^2.8.17",
     "@types/elliptic": "^6.4.18",
     "@types/express": "^4.17.21",
@@ -88,29 +86,20 @@
     "typescript-eslint": "7.13.1"
   },
   "scripts": {
-    "prestart": "bun run tsc test",
-    "start": "bun run prestart && cd lib && bun gui.js",
+    "start": "bun gui.ts",
     "gui": "cd ./gui/react/ && bun run start",
     "docs": "bun modules/build-docs.ts",
-    "tsc": "bun tsc.ts",
     "proto:compile": "protoc --plugin=protoc-gen-ts_proto=.\\node_modules\\.bin\\protoc-gen-ts_proto.cmd --ts_proto_opt=\"esModuleInterop=true\" --ts_proto_opt=\"forceLong=long\" --ts_proto_opt=\"env=node\" --ts_proto_out=. modules/*.proto",
-    "prebuild-cli": "bun run tsc false false",
-    "build-windows-cli": "bun run prebuild-cli && cd lib && node modules/build windows-x64",
-    "build-linux-cli": "bun run prebuild-cli && cd lib && node modules/build linuxstatic-x64",
-    "build-arm-cli": "bun run prebuild-cli && cd lib && node modules/build linux-arm64",
-    "build-macos-cli": "bun run prebuild-cli && cd lib && node modules/build macos-x64",
-    "build-alpine-cli": "bun run prebuild-cli && cd lib && node modules/build alpine-x64",
-    "build-android-cli": "bun run prebuild-cli && cd lib && node modules/build linuxstatic-armv7",
-    "prebuild-gui": "bun run tsc",
-    "build-windows-gui": "bun run prebuild-gui && cd lib && node modules/build windows-x64 true",
-    "build-linux-gui": "bun run prebuild-gui && cd lib && node modules/build linuxstatic-x64 true",
-    "build-arm-gui": "bun run prebuild-gui && cd lib && node modules/build linux-arm64 true",
-    "build-macos-gui": "bun run prebuild-gui && cd lib && node modules/build macos-x64 true",
-    "build-alpine-gui": "bun run prebuild-gui && cd lib && node modules/build alpine-x64 true",
-    "build-android-gui": "bun run prebuild-gui && cd lib && node modules/build linuxstatic-armv7 true",
+    "build-windows-cli": "bun modules/build windows-x64",
+    "build-linux-cli": "bun modules/build linux-x64",
+    "build-arm-cli": "bun modules/build linux-arm64",
+    "build-macos-cli": "bun modules/build darwin-x64",
+    "build-windows-gui": "bun modules/build windows-x64 true",
+    "build-linux-gui": "bun modules/build linux-x64 true",
+    "build-arm-gui": "bun modules/build linux-arm64 true",
+    "build-macos-gui": "bun modules/build darwin-x64 true",
     "eslint": "npx eslint . --quiet",
     "eslint-fix": "npx eslint . --fix",
-    "pretest": "bun run tsc",
-    "test": "bun run pretest && cd lib && bun modules/build windows-x64 && bun modules/build linuxstatic-x64 && bun modules/build macos-x64"
+    "test": "bun modules/build windows-x64 && bun modules/build linux-x64 && bun modules/build darwin-x64"
   }
 }

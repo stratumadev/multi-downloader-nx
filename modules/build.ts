@@ -2,16 +2,14 @@
 import fs from 'fs-extra';
 import pkg from '../package.json';
 import modulesCleanup from 'removeNPMAbsolutePaths';
-import { exec } from '@yao-pkg/pkg';
 import { execSync } from 'child_process';
 import { console } from './log';
-import esbuild from 'esbuild';
-import path from 'path';
+import util from 'util';
+const exec = util.promisify(require('child_process').exec);
+const buildsDir = './builds';
+const bun = 'bun-';
 
-const buildsDir = './_builds';
-const nodeVer = 'node20-';
-
-type BuildTypes = `${'windows'|'macos'|'linux'|'linuxstatic'|'alpine'}-${'x64'|'arm64'}`|'linuxstatic-armv7'
+type BuildTypes = `${'windows'|'darwin'|'linux'}-${'x64'|'arm64'}`|'linux-arm64'
 
 (async () => {
   const buildType = process.argv[2] as BuildTypes;
@@ -23,9 +21,9 @@ type BuildTypes = `${'windows'|'macos'|'linux'|'linuxstatic'|'alpine'}-${'x64'|'
 // main
 async function buildBinary(buildType: BuildTypes, gui: boolean) {
   const buildStr = 'multi-downloader-nx';
-  const acceptablePlatforms = ['windows','linux','linuxstatic','macos','alpine'];
+  const acceptablePlatforms = ['windows','linux','darwin'];
   const acceptableArchs = ['x64','arm64'];
-  const acceptableBuilds: string[] = ['linuxstatic-armv7'];
+  const acceptableBuilds: string[] = ['linux-arm64'];
   for (const platform of acceptablePlatforms) {
     for (const arch of acceptableArchs) {
       acceptableBuilds.push(platform+'-'+arch);
@@ -45,39 +43,21 @@ async function buildBinary(buildType: BuildTypes, gui: boolean) {
     fs.removeSync(buildDir);
   }
   fs.mkdirSync(buildDir);
-  console.info('Running esbuild');
-
-  const build = await esbuild.build({
-    entryPoints: [
-      gui ? 'gui.js' : 'index.js',
-    ],
-    sourceRoot: './',
-    bundle: true,
-    platform: 'node',
-    format: 'cjs',
-    treeShaking: true,
-    // External source map for debugging
-    sourcemap: true,
-    // Minify and keep the original names
-    minify: true,
-    keepNames: true,
-    outfile: path.join(buildsDir, 'index.cjs'),
-    metafile: true,
-    external: ['cheerio']
-  });
-
-  if (build.errors?.length > 0) console.error(build.errors);
-  if (build.warnings?.length > 0) console.warn(build.warnings);
+  console.info('Running bun build');
 
   const buildConfig = [
-    `${buildsDir}/index.cjs`,
-    '--target', nodeVer + buildType,
-    '--output', `${buildDir}/${pkg.short_name}`,
-    '--compress', 'GZip'
+    'bun build',
+    '--compile',
+    '--sourcemap',
+    '--bytecode',
+    '--external=cheerio',
+    `--target=${bun + buildType}`,
+    gui ? './gui.ts' : './index.ts',
+    '--outfile', `${buildDir}/${pkg.short_name}`
   ];
   console.info(`[Build] Build configuration: ${buildFull}`);
   try {
-    await exec(buildConfig);
+    await exec(buildConfig.join(' '));
   }
   catch(e){
     console.info(e);
@@ -103,7 +83,7 @@ async function buildBinary(buildType: BuildTypes, gui: boolean) {
   if(fs.existsSync(`${buildsDir}/${buildFull}.7z`)){
     fs.removeSync(`${buildsDir}/${buildFull}.7z`);
   }
-  execSync(`7z a -t7z "${buildsDir}/${buildFull}.7z" "${buildDir}"`,{stdio:[0,1,2]});
+  execSync(`7z a -t7z "${buildsDir}/${buildFull}.7z" "${buildDir}" -mx=9`,{stdio:[0,1,2]});
 }
 
 function getFriendlyName(buildString: string): string {
