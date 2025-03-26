@@ -65,15 +65,15 @@ const api: APIType = {
     session: `${domain.api}/start_session.0.json`,
     collections: `${domain.api}/list_collections.0.json`,
     // new api
-    beta_auth: `${domain.api_beta}/auth/v1/token`,
+    beta_auth: `${domain.www}/auth/v1/token`,
     // This User-Agent bypasses Cloudflare security by the newer Endpoint
     defaultUserAgent: 'Crunchyroll/4.71.0 (bundle_identifier:com.crunchyroll.iphone; build_number:4052956.474096152) iOS/18.3.2 Gravity/4.71.0',
-    beta_profile: `${domain.api_beta}/accounts/v1/me/profile`,
-    beta_cmsToken: `${domain.api_beta}/index/v2`,
-    search: `${domain.api_beta}/content/v2/discover/search`,
-    cms: `${domain.api_beta}/content/v2/cms`,
-    beta_browse: `${domain.api_beta}/content/v1/browse`,
-    beta_cms: `${domain.api_beta}/cms/v2`,
+    beta_profile: `${domain.www}/accounts/v1/me/profile`,
+    beta_cmsToken: `${domain.www}/index/v2`,
+    search: `${domain.www}/content/v2/discover/search`,
+    cms: `${domain.www}/content/v2/cms`,
+    beta_browse: `${domain.www}/content/v1/browse`,
+    beta_cms: `${domain.www}/cms/v2`,
     // beta api
     drm: `${domain.api_beta}/drm/v1/auth`,
     crunchyAuthHeader: {},
