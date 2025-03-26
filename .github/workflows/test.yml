@@ -2,38 +2,34 @@ name: Style and build test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, bun ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, bun ]
 
 jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 8.6.6
+    - uses: oven-sh/setup-bun@v2
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: 20
         check-latest: true
-    - run: pnpm i 
-    - run: npx eslint .
+    - run: bun i 
+    - run: bun run eslint
   test: 
     needs: eslint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 8.6.6
+    - uses: oven-sh/setup-bun@v2
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: 20
         check-latest: true
-    - run: pnpm i 
-    - run: pnpm run test
+    - run: bun i 
+    - run: bun run test
 
